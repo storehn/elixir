@@ -276,6 +276,25 @@
             padding: 15px 20px;
             font-weight: 600;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .save-json-btn {
+            background: linear-gradient(135deg, var(--success-color), #10b981);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        
+        .save-json-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(5, 150, 105, 0.3);
         }
         
         .product-row {
@@ -356,6 +375,17 @@
             transform: scale(1.1);
         }
         
+        /* Success Message */
+        .success-message {
+            background: rgba(5, 150, 105, 0.2);
+            border: 1px solid rgba(5, 150, 105, 0.5);
+            color: var(--success-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .form-row {
@@ -420,6 +450,11 @@
         </header>
 
         <div class="admin-content">
+            <div class="success-message" id="success-message">
+                <i class="fas fa-check-circle"></i>
+                <span id="success-text"></span>
+            </div>
+
             <div class="admin-tabs">
                 <button class="tab-btn active" onclick="showTab('products')">
                     <i class="fas fa-box"></i>
@@ -436,10 +471,12 @@
                 <div class="add-product-form">
                     <h3 style="margin-bottom: 20px; color: var(--text-color);">
                         <i class="fas fa-plus-circle"></i>
-                        Agregar Nuevo Producto
+                        <span id="form-title">Agregar Nuevo Producto</span>
                     </h3>
                     
-                    <form onsubmit="addProduct(event)">
+                    <form onsubmit="addProduct(event)" id="product-form">
+                        <input type="hidden" id="editingProductId" value="">
+                        
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="productName">Nombre del Producto</label>
@@ -499,9 +536,9 @@
                             <textarea id="productDescription" placeholder="Descripción del producto"></textarea>
                         </div>
                         
-                        <button type="submit" class="add-btn">
+                        <button type="submit" class="add-btn" id="submit-btn">
                             <i class="fas fa-plus"></i>
-                            Agregar Producto
+                            <span id="submit-text">Agregar Producto</span>
                         </button>
                     </form>
                 </div>
@@ -511,8 +548,14 @@
             <div id="products-tab" class="tab-content active">
                 <div class="products-table">
                     <div class="table-header">
-                        <i class="fas fa-list"></i>
-                        Lista de Productos
+                        <span>
+                            <i class="fas fa-list"></i>
+                            Lista de Productos
+                        </span>
+                        <button class="save-json-btn" onclick="saveInventoryToFile()">
+                            <i class="fas fa-save"></i>
+                            Guardar Inventario
+                        </button>
                     </div>
                     <div id="products-list">
                         <!-- Los productos se cargarán aquí -->
@@ -525,6 +568,7 @@
     <script>
         let products = [];
         let isLoggedIn = false;
+        let editingProductId = null;
 
         // Credenciales de administrador
         const ADMIN_CREDENTIALS = {
@@ -573,6 +617,11 @@
             
             // Activar botón correspondiente
             event.target.classList.add('active');
+            
+            // Limpiar formulario si se cambia de pestaña
+            if (tabName === 'add-product') {
+                clearForm();
+            }
         }
 
         async function loadProducts() {
@@ -627,11 +676,19 @@
             `).join('');
         }
 
+        function clearForm() {
+            document.getElementById('product-form').reset();
+            document.getElementById('editingProductId').value = '';
+            document.getElementById('form-title').textContent = 'Agregar Nuevo Producto';
+            document.getElementById('submit-text').textContent = 'Agregar Producto';
+            document.querySelector('#submit-btn i').className = 'fas fa-plus';
+            editingProductId = null;
+        }
+
         function addProduct(event) {
             event.preventDefault();
             
-            const newProduct = {
-                id: Date.now(), // ID único basado en timestamp
+            const productData = {
                 name: document.getElementById('productName').value,
                 brand: document.getElementById('productBrand').value,
                 price: parseFloat(document.getElementById('productPrice').value),
@@ -643,14 +700,25 @@
                 description: document.getElementById('productDescription').value
             };
             
-            products.push(newProduct);
-            saveProducts();
+            if (editingProductId) {
+                // Editar producto existente
+                const productIndex = products.findIndex(p => p.id === editingProductId);
+                if (productIndex !== -1) {
+                    products[productIndex] = { ...productData, id: editingProductId };
+                    showSuccessMessage('Producto actualizado exitosamente');
+                }
+            } else {
+                // Agregar nuevo producto
+                const newProduct = {
+                    ...productData,
+                    id: Date.now() // ID único basado en timestamp
+                };
+                products.push(newProduct);
+                showSuccessMessage('Producto agregado exitosamente');
+            }
+            
             renderProductsList();
-            
-            // Limpiar formulario
-            event.target.reset();
-            
-            showNotification('Producto agregado exitosamente', 'success');
+            clearForm();
             showTab('products');
         }
 
@@ -658,8 +726,7 @@
             const product = products.find(p => p.id === productId);
             if (product) {
                 product.stock = parseInt(newStock);
-                saveProducts();
-                showNotification('Stock actualizado', 'success');
+                showSuccessMessage('Stock actualizado');
             }
         }
 
@@ -677,36 +744,33 @@
                 document.getElementById('productBadge').value = product.badge || '';
                 document.getElementById('productDescription').value = product.description || '';
                 
+                // Configurar modo edición
+                document.getElementById('editingProductId').value = product.id;
+                document.getElementById('form-title').textContent = 'Editar Producto';
+                document.getElementById('submit-text').textContent = 'Actualizar Producto';
+                document.querySelector('#submit-btn i').className = 'fas fa-save';
+                editingProductId = product.id;
+                
                 // Cambiar a pestaña de agregar producto
                 showTab('add-product');
-                
-                // Eliminar producto actual (se agregará como nuevo)
-                deleteProduct(productId, false);
             }
         }
 
-        function deleteProduct(productId, showConfirm = true) {
-            if (showConfirm && !confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+        function deleteProduct(productId) {
+            if (!confirm('¿Estás seguro de que quieres eliminar este producto?')) {
                 return;
             }
             
             products = products.filter(p => p.id !== productId);
-            saveProducts();
             renderProductsList();
-            
-            if (showConfirm) {
-                showNotification('Producto eliminado', 'success');
-            }
+            showSuccessMessage('Producto eliminado');
         }
 
-        function saveProducts() {
-            // En un entorno real, esto haría una petición al servidor
-            // Por ahora, simularemos que se guarda
+        function saveInventoryToFile() {
             const inventoryData = {
                 productos: products
             };
             
-            // Crear y descargar archivo JSON actualizado
             const dataStr = JSON.stringify(inventoryData, null, 2);
             const dataBlob = new Blob([dataStr], {type: 'application/json'});
             const url = URL.createObjectURL(dataBlob);
@@ -718,7 +782,19 @@
             
             URL.revokeObjectURL(url);
             
-            showNotification('Inventario actualizado. Descarga el archivo JSON y reemplázalo en tu servidor.', 'info');
+            showSuccessMessage('Archivo inventario.json descargado. Reemplaza el archivo en tu servidor para aplicar los cambios.');
+        }
+
+        function showSuccessMessage(message) {
+            const successDiv = document.getElementById('success-message');
+            const successText = document.getElementById('success-text');
+            
+            successText.textContent = message;
+            successDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                successDiv.style.display = 'none';
+            }, 5000);
         }
 
         function showNotification(message, type = 'info') {
