@@ -1,0 +1,166 @@
+{
+  "productos": [
+    {
+      "id": 1,
+      "name": "Jean Paul Gaultier Le Male",
+      "price": 620,
+      "image": "https://fimgs.net/mdimg/perfume/375x500.430.jpg",
+      "category": "decant",
+      "badge": "Popular",
+      "size": "10ml",
+      "brand": "JPG",
+      "stock": 15,
+      "description": "Fragancia masculina icónica con notas de menta, lavanda y vainilla"
+    },
+    {
+      "id": 2,
+      "name": "Jean Paul Gaultier Le Male Elixir",
+      "price": 850,
+      "image": "https://fimgs.net/mdimg/perfume/375x500.16062.jpg",
+      "category": "decant",
+      "badge": "Nuevo",
+      "size": "10ml",
+      "brand": "JPG",
+      "stock": 8,
+      "description": "Versión intensa y seductora del clásico Le Male"
+    },
+    {
+      "id": 3,
+      "name": "Dior Sauvage Elixir",
+      "price": 950,
+      "image": "https://fimgs.net/mdimg/perfume/375x500.66676.jpg",
+      "category": "premium",
+      "badge": "Premium",
+      "size": "10ml",
+      "brand": "Dior",
+      "stock": 12,
+      "description": "La concentración más intensa de Sauvage, con especias y maderas nobles"
+    },
+    {
+      "id": 4,
+      "name": "Tom Ford Beau de Jour",
+      "price": 1100,
+      "image": "https://fimgs.net/mdimg/perfume/375x500.58439.jpg",
+      "category": "premium",
+      "size": "10ml",
+      "brand": "Tom Ford",
+      "stock": 5,
+      "description": "Elegante fragancia con lavanda francesa y geranio"
+    },
+    {
+      "id": 5,
+      "name": "Creed Aventus",
+      "price": 1250,
+      "image": "https://fimgs.net/mdimg/perfume/375x500.9828.jpg",
+      "category": "premium",
+      "badge": "Exclusivo",
+      "size": "10ml",
+      "brand": "Creed",
+      "stock": 3,
+      "description": "La fragancia más codiciada, con piña, abedul y pachulí"
+    },
+    {
+      "id": 6,
+      "name": "Bleu de Chanel",
+      "price": 750,
+      "image": "https://fimgs.net/mdimg/perfume/375x500.9099.jpg",
+      "category": "decant",
+      "size": "10ml",
+      "brand": "Chanel",
+      "stock": 20,
+      "description": "Fragancia fresca y aromática con cítricos y maderas"
+    },
+    {
+      "id": 7,
+      "name": "Versace Eros",
+      "price": 620,
+      "image": "https://fimgs.net/mdimg/perfume/375x500.16657.jpg",
+      "category": "decant",
+      "size": "10ml",
+      "brand": "Versace",
+      "stock": 18,
+      "description": "Fragancia seductora con menta, manzana verde y tonka"
+    },
+    {
+      "id": 8,
+      "name": "Paco Rabanne 1 Million",
+      "price": 680,
+      "image": "https://fimgs.net/mdimg/perfume/375x500.5405.jpg",
+      "category": "decant",
+      "size": "10ml",
+      "brand": "Paco Rabanne",
+      "stock": 0,
+      "description": "Fragancia dorada con especias, cuero y maderas preciosas"
+    },
+    {
+      "id": 9,
+      "name": "Yves Saint Laurent Y",
+      "price": 780,
+      "image": "https://fimgs.net/mdimg/perfume/375x500.46631.jpg",
+      "category": "decant",
+      "size": "10ml",
+      "brand": "YSL",
+      "stock": 14,
+      "description": "Fragancia moderna con bergamota, salvia y cedro"
+    },
+    {
+      "id": 10,
+      "name": "Armani Code",
+      "price": 650,
+      "image": "https://fimgs.net/mdimg/perfume/375x500.1066.jpg",
+      "category": "decant",
+      "size": "10ml",
+      "brand": "Armani",
+      "stock": 16,
+      "description": "Fragancia elegante con bergamota, olivo y guayaco"
+    },
+    {
+      "id": 17,
+      "name": "Jean Paul Gaultier Le Male",
+      "price": 2950,
+      "image": "https://fimgs.net/mdimg/perfume/375x500.430.jpg",
+      "category": "completo",
+      "badge": "Botella Completa",
+      "size": "100ml",
+      "brand": "JPG",
+      "stock": 4,
+      "description": "Botella completa de 100ml del icónico Le Male"
+    },
+    {
+      "id": 18,
+      "name": "Dior Sauvage",
+      "price": 3450,
+      "image": "https://fimgs.net/mdimg/perfume/375x500.31655.jpg",
+      "category": "completo",
+      "badge": "Botella Completa",
+      "size": "100ml",
+      "brand": "Dior",
+      "stock": 2,
+      "description": "Botella completa de 100ml del bestseller Sauvage"
+    },
+    {
+      "id": 19,
+      "name": "Bleu de Chanel",
+      "price": 3700,
+      "image": "https://fimgs.net/mdimg/perfume/375x500.9099.jpg",
+      "category": "completo",
+      "badge": "Botella Completa",
+      "size": "100ml",
+      "brand": "Chanel",
+      "stock": 3,
+      "description": "Botella completa de 100ml del elegante Bleu de Chanel"
+    },
+    {
+      "id": 20,
+      "name": "Creed Aventus",
+      "price": 6900,
+      "image": "https://fimgs.net/mdimg/perfume/375x500.9828.jpg",
+      "category": "completo",
+      "badge": "Botella Completa",
+      "size": "100ml",
+      "brand": "Creed",
+      "stock": 1,
+      "description": "Botella completa de 100ml del exclusivo Aventus"
+    }
+  ]
+}
