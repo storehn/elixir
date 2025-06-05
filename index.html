@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elixir Store - Decants de Perfumes</title>
+    <title>MenFragrance - Decants de Perfumes Masculinos</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -12,6 +12,9 @@
             --primary-hover: #2563eb;
             --secondary-color: #0891b2;
             --accent-color: #0f766e;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --danger-color: #dc2626;
             --text-color: #ffffff;
             --text-secondary: rgba(255, 255, 255, 0.7);
             --background-color: #0f172a;
@@ -107,11 +110,6 @@
             background: rgba(255, 255, 255, 0.2);
         }
         
-        .menu-toggle span {
-            font-size: 1rem;
-            font-weight: 500;
-        }
-        
         .nav-menu {
             position: absolute;
             top: 100%;
@@ -142,10 +140,6 @@
         
         .nav-menu li {
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .nav-menu li:last-child {
-            border-bottom: none;
         }
         
         .nav-menu a {
@@ -253,10 +247,6 @@
             gap: 8px;
         }
         
-        .search-box button:hover {
-            background: linear-gradient(135deg, var(--primary-hover), var(--accent-color));
-        }
-        
         /* Category Filters */
         .category-filters {
             display: flex;
@@ -343,6 +333,11 @@
             border-color: rgba(30, 64, 175, 0.3);
         }
         
+        .product.out-of-stock {
+            opacity: 0.6;
+            filter: grayscale(0.5);
+        }
+        
         .product-image {
             position: relative;
             height: 200px;
@@ -380,6 +375,32 @@
             font-size: 0.8rem;
             font-weight: 500;
             z-index: 1;
+        }
+        
+        .stock-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            z-index: 1;
+        }
+        
+        .stock-badge.in-stock {
+            background: var(--success-color);
+            color: white;
+        }
+        
+        .stock-badge.low-stock {
+            background: var(--warning-color);
+            color: white;
+        }
+        
+        .stock-badge.out-of-stock {
+            background: var(--danger-color);
+            color: white;
         }
         
         .product-info {
@@ -428,9 +449,21 @@
             justify-content: space-between;
         }
         
-        .product-category {
+        .product-stock {
             font-size: 0.9rem;
-            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+        
+        .product-stock.in-stock {
+            color: var(--success-color);
+        }
+        
+        .product-stock.low-stock {
+            color: var(--warning-color);
+        }
+        
+        .product-stock.out-of-stock {
+            color: var(--danger-color);
         }
         
         .product-actions {
@@ -455,9 +488,15 @@
             gap: 8px;
         }
         
-        .add-to-cart:hover {
+        .add-to-cart:hover:not(:disabled) {
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(30, 64, 175, 0.3);
+        }
+        
+        .add-to-cart:disabled {
+            background: var(--danger-color);
+            cursor: not-allowed;
+            opacity: 0.7;
         }
         
         .quick-view {
@@ -476,6 +515,23 @@
         
         .quick-view:hover {
             background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+        
+        .loading i {
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         /* Empty state */
@@ -497,152 +553,47 @@
             color: var(--text-color);
         }
         
-        /* Footer */
-        footer {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 30px 0;
-            margin-top: 50px;
-            border-top: 1px solid rgba(30, 64, 175, 0.2);
-        }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-            padding: 0 20px;
-        }
-        
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            gap: 10px;
-        }
-        
-        .footer-logo-icon {
-            width: 30px;
-            height: 30px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 16px;
-        }
-        
-        .footer-logo-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-        
-        .footer-description {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-        
-        .footer-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-        
-        .footer-links a:hover {
+        /* Admin Link */
+        .admin-link {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
             color: var(--text-color);
+            padding: 10px 15px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            z-index: 1000;
+        }
+        
+        .admin-link:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.05);
         }
         
         /* Responsive */
-        @media (max-width: 992px) {
-            .products {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 20px;
-            }
-        }
-        
         @media (max-width: 768px) {
-            header {
-                padding: 12px 15px;
-            }
-            
-            .logo-container h1 {
-                font-size: 1.5rem;
-            }
-            
-            .search-container {
-                margin: 20px auto;
-            }
-            
-            .search-box input {
-                padding: 12px 15px;
-            }
-            
-            .search-box button {
-                padding: 0 15px;
-            }
-            
-            .category-filters {
-                margin: 15px auto 25px;
-            }
-            
-            .section-title {
-                font-size: 1.5rem;
-                margin-bottom: 20px;
-            }
-            
             .products {
                 grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
                 gap: 15px;
             }
-        }
-        
-        @media (max-width: 576px) {
-            .logo-container h1 {
-                font-size: 1.3rem;
-            }
             
-            .products {
-                grid-template-columns: 1fr;
-                max-width: 350px;
-                margin: 0 auto;
-            }
-            
-            .product-image {
-                height: 180px;
+            .admin-link {
+                bottom: 10px;
+                left: 10px;
+                padding: 8px 12px;
+                font-size: 0.8rem;
             }
         }
-        
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .product {
-            animation: fadeIn 0.5s ease forwards;
-        }
-        
-        .product:nth-child(2) { animation-delay: 0.1s; }
-        .product:nth-child(3) { animation-delay: 0.2s; }
-        .product:nth-child(4) { animation-delay: 0.3s; }
-        .product:nth-child(5) { animation-delay: 0.4s; }
-        .product:nth-child(6) { animation-delay: 0.5s; }
     </style>
 </head>
 <body>
     <header>
         <div class="logo-container">
             <div class="logo-icon">M</div>
-            <h1>Elixir Store</h1>
+            <h1>MenFragrance</h1>
         </div>
         
         <nav>
@@ -669,7 +620,7 @@
     
     <div class="search-container">
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Buscar perfumes...">
+            <input type="text" id="searchInput" placeholder="Buscar perfumes masculinos...">
             <button onclick="searchProducts()">
                 <i class="fas fa-search"></i>
                 <span>Buscar</span>
@@ -685,63 +636,61 @@
     </div>
     
     <main>
-        <h2 class="section-title">Decants Y Perfumes Masculinos</h2>
+        <h2 class="section-title">Decants de Perfumes Masculinos</h2>
         <section class="products" id="product-list">
-            <!-- Los productos se generarán dinámicamente -->
+            <div class="loading">
+                <i class="fas fa-spinner"></i>
+                <p>Cargando productos...</p>
+            </div>
         </section>
     </main>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-logo">
-                <div class="footer-logo-icon">E</div>
-                <div class="footer-logo-text">Elixir Store</div>
-            </div>
-            <p class="footer-description">Los mejores decants y perfumes premium al mejor precio. Fragancias de lujo para el hombre moderno.</p>
-            <div class="footer-links">
-                <a href="#">Términos y Condiciones</a>
-                <a href="#">Política de Privacidad</a>
-                <a href="#">Contacto</a>
-            </div>
-        </div>
-    </footer>
+    <a href="admin.html" class="admin-link">
+        <i class="fas fa-cog"></i> Admin
+    </a>
 
     <script>
         let cart = [];
-        const products = [
-            { id: 1, name: "Jean Paul Gaultier Le Male", price: 620, image: "https://fimgs.net/mdimg/perfume/375x500.430.jpg", category: "decant", badge: "Popular", size: "10ml", brand: "JPG" },
-            { id: 2, name: "Jean Paul Gaultier Le Male Elixir", price: 850, image: "https://fimgs.net/mdimg/perfume/375x500.16062.jpg", category: "decant", badge: "Nuevo", size: "10ml", brand: "JPG" },
-            { id: 3, name: "Dior Sauvage Elixir", price: 950, image: "https://fimgs.net/mdimg/perfume/375x500.66676.jpg", category: "premium", badge: "Premium", size: "10ml", brand: "Dior" },
-            { id: 4, name: "Tom Ford Beau de Jour", price: 1100, image: "https://fimgs.net/mdimg/perfume/375x500.58439.jpg", category: "premium", size: "10ml", brand: "Tom Ford" },
-            { id: 5, name: "Creed Aventus", price: 1250, image: "https://fimgs.net/mdimg/perfume/375x500.9828.jpg", category: "premium", badge: "Exclusivo", size: "10ml", brand: "Creed" },
-            { id: 6, name: "Bleu de Chanel", price: 750, image: "https://fimgs.net/mdimg/perfume/375x500.9099.jpg", category: "decant", size: "10ml", brand: "Chanel" },
-            { id: 7, name: "Versace Eros", price: 620, image: "https://fimgs.net/mdimg/perfume/375x500.16657.jpg", category: "decant", size: "10ml", brand: "Versace" },
-            { id: 8, name: "Paco Rabanne 1 Million", price: 680, image: "https://fimgs.net/mdimg/perfume/375x500.5405.jpg", category: "decant", size: "10ml", brand: "Paco Rabanne" },
-            { id: 9, name: "Yves Saint Laurent Y", price: 780, image: "https://fimgs.net/mdimg/perfume/375x500.46631.jpg", category: "decant", size: "10ml", brand: "YSL" },
-            { id: 10, name: "Armani Code", price: 650, image: "https://fimgs.net/mdimg/perfume/375x500.1066.jpg", category: "decant", size: "10ml", brand: "Armani" },
-            { id: 11, name: "Hugo Boss Bottled", price: 580, image: "https://fimgs.net/mdimg/perfume/375x500.1067.jpg", category: "decant", size: "10ml", brand: "Hugo Boss" },
-            { id: 12, name: "Dolce & Gabbana The One", price: 720, image: "https://fimgs.net/mdimg/perfume/375x500.1068.jpg", category: "decant", size: "10ml", brand: "D&G" },
-            { id: 13, name: "Acqua di Gio Profumo", price: 680, image: "https://fimgs.net/mdimg/perfume/375x500.1069.jpg", category: "decant", size: "10ml", brand: "Armani" },
-            { id: 14, name: "Tom Ford Oud Wood", price: 1200, image: "https://fimgs.net/mdimg/perfume/375x500.1070.jpg", category: "premium", badge: "Luxury", size: "10ml", brand: "Tom Ford" },
-            { id: 15, name: "Maison Margiela Jazz Club", price: 920, image: "https://fimgs.net/mdimg/perfume/375x500.15060.jpg", category: "premium", size: "10ml", brand: "Maison Margiela" },
-            { id: 16, name: "Le Labo Santal 33", price: 1050, image: "https://fimgs.net/mdimg/perfume/375x500.12201.jpg", category: "premium", badge: "Trending", size: "10ml", brand: "Le Labo" },
-            { id: 17, name: "Jean Paul Gaultier Le Male", price: 2950, image: "https://fimgs.net/mdimg/perfume/375x500.430.jpg", category: "completo", badge: "Botella Completa", size: "100ml", brand: "JPG" },
-            { id: 18, name: "Dior Sauvage", price: 3450, image: "https://fimgs.net/mdimg/perfume/375x500.31655.jpg", category: "completo", badge: "Botella Completa", size: "100ml", brand: "Dior" },
-            { id: 19, name: "Bleu de Chanel", price: 3700, image: "https://fimgs.net/mdimg/perfume/375x500.9099.jpg", category: "completo", badge: "Botella Completa", size: "100ml", brand: "Chanel" },
-            { id: 20, name: "Creed Aventus", price: 6900, image: "https://fimgs.net/mdimg/perfume/375x500.9828.jpg", category: "completo", badge: "Botella Completa", size: "100ml", brand: "Creed" },
-            { id: 21, name: "Versace Eros Flame", price: 650, image: "https://fimgs.net/mdimg/perfume/375x500.1071.jpg", category: "decant", size: "10ml", brand: "Versace" },
-            { id: 22, name: "Montblanc Legend", price: 580, image: "https://fimgs.net/mdimg/perfume/375x500.1072.jpg", category: "decant", size: "10ml", brand: "Montblanc" },
-            { id: 23, name: "Carolina Herrera Bad Boy", price: 720, image: "https://fimgs.net/mdimg/perfume/375x500.1073.jpg", category: "decant", badge: "Nuevo", size: "10ml", brand: "CH" },
-            { id: 24, name: "Azzaro Wanted", price: 620, image: "https://fimgs.net/mdimg/perfume/375x500.1074.jpg", category: "decant", size: "10ml", brand: "Azzaro" },
-        ];
+        let products = [];
 
-        // Cargar carrito desde localStorage si existe
+        // Cargar productos desde JSON
+        async function loadProducts() {
+            try {
+                const response = await fetch('inventario.json');
+                const data = await response.json();
+                products = data.productos;
+                renderProducts();
+            } catch (error) {
+                console.error('Error cargando productos:', error);
+                document.getElementById('product-list').innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Error cargando productos</h3>
+                        <p>No se pudieron cargar los productos. Intenta recargar la página.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Cargar carrito desde localStorage
         function loadCart() {
             const savedCart = localStorage.getItem('men-perfume-cart');
             if (savedCart) {
                 cart = JSON.parse(savedCart);
                 updateCartCount();
             }
+        }
+
+        function getStockStatus(stock) {
+            if (stock === 0) return 'out-of-stock';
+            if (stock <= 5) return 'low-stock';
+            return 'in-stock';
+        }
+
+        function getStockText(stock) {
+            if (stock === 0) return 'Agotado';
+            if (stock <= 5) return `Quedan ${stock}`;
+            return `Stock: ${stock}`;
         }
 
         function renderProducts(filteredProducts = products) {
@@ -760,12 +709,17 @@
             }
             
             filteredProducts.forEach(product => {
+                const stockStatus = getStockStatus(product.stock);
+                const stockText = getStockText(product.stock);
+                const isOutOfStock = product.stock === 0;
+                
                 const productElement = `
-                    <div class="product">
+                    <div class="product ${isOutOfStock ? 'out-of-stock' : ''}">
                         <div class="product-image">
                             <img src="${product.image}" alt="${product.name}">
                             <div class="product-overlay"></div>
                             ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
+                            <div class="stock-badge ${stockStatus}">${stockText}</div>
                         </div>
                         <div class="product-info">
                             <div class="product-meta">
@@ -777,9 +731,14 @@
                                 L ${product.price.toLocaleString()}
                                 <span class="product-category">${getCategoryName(product.category)}</span>
                             </div>
+                            <div class="product-stock ${stockStatus}">
+                                <i class="fas ${stockStatus === 'out-of-stock' ? 'fa-times-circle' : stockStatus === 'low-stock' ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i>
+                                ${stockText}
+                            </div>
                             <div class="product-actions">
-                                <button class="add-to-cart" onclick="addToCart(${product.id})">
-                                    <i class="fas fa-shopping-cart"></i> Agregar
+                                <button class="add-to-cart" onclick="addToCart(${product.id})" ${isOutOfStock ? 'disabled' : ''}>
+                                    <i class="fas fa-shopping-cart"></i> 
+                                    ${isOutOfStock ? 'Agotado' : 'Agregar'}
                                 </button>
                                 <button class="quick-view" onclick="quickView(${product.id})">
                                     <i class="fas fa-eye"></i>
@@ -803,18 +762,15 @@
 
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
-            if (product) {
+            if (product && product.stock > 0) {
                 cart.push(product);
                 updateCartCount();
                 saveCart();
-                
-                // Mostrar notificación
                 showNotification(`${product.name} agregado al carrito`);
             }
         }
 
         function showNotification(message) {
-            // Crear elemento de notificación
             const notification = document.createElement('div');
             notification.style.position = 'fixed';
             notification.style.bottom = '20px';
@@ -840,17 +796,14 @@
             
             document.body.appendChild(notification);
             
-            // Animar entrada
             setTimeout(() => {
                 notification.style.transform = 'translateY(0)';
                 notification.style.opacity = '1';
             }, 10);
             
-            // Eliminar después de 3 segundos
             setTimeout(() => {
                 notification.style.transform = 'translateY(100px)';
                 notification.style.opacity = '0';
-                
                 setTimeout(() => {
                     document.body.removeChild(notification);
                 }, 300);
@@ -868,7 +821,7 @@
 
         function redirectToCart() {
             saveCart();
-            window.location.href = 'cart';
+            window.location.href = 'cart.html';
         }
 
         function searchProducts() {
@@ -877,14 +830,12 @@
             
             let filteredProducts = products;
             
-            // Filtrar por categoría si no es "all"
             if (activeCategory !== 'all') {
                 filteredProducts = filteredProducts.filter(product => 
                     product.category === activeCategory
                 );
             }
             
-            // Filtrar por texto de búsqueda
             if (searchInput) {
                 filteredProducts = filteredProducts.filter(product => 
                     product.name.toLowerCase().includes(searchInput) ||
@@ -898,18 +849,17 @@
         function quickView(productId) {
             const product = products.find(p => p.id === productId);
             if (product) {
-                // Aquí podrías implementar un modal para mostrar más detalles del producto
-                alert(`${product.name}\nMarca: ${product.brand}\nTamaño: ${product.size}\nPrecio: L ${product.price.toLocaleString()}\nCategoría: ${getCategoryName(product.category)}`);
+                const stockStatus = getStockStatus(product.stock);
+                const stockText = getStockText(product.stock);
+                
+                alert(`${product.name}\n\nMarca: ${product.brand}\nTamaño: ${product.size}\nPrecio: L ${product.price.toLocaleString()}\nCategoría: ${getCategoryName(product.category)}\nStock: ${stockText}\n\nDescripción: ${product.description || 'No disponible'}`);
             }
         }
 
         // Inicializar
         document.addEventListener('DOMContentLoaded', function() {
-            // Cargar carrito
             loadCart();
-            
-            // Renderizar productos
-            renderProducts();
+            loadProducts();
             
             // Manejar menú de navegación
             const menuToggle = document.getElementById('menuToggle');
@@ -931,13 +881,9 @@
             
             categoryButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    // Quitar clase active de todos los botones
                     categoryButtons.forEach(btn => btn.classList.remove('active'));
-                    
-                    // Agregar clase active al botón clickeado
                     this.classList.add('active');
                     
-                    // Filtrar productos
                     const category = this.dataset.category;
                     
                     if (category === 'all') {
