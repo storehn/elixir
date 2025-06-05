@@ -173,18 +173,6 @@
       "badge": null,
       "description": "Perfume Avon xd",
       "id": 21
-    },
-    {
-      "name": "Avon Alpha",
-      "brand": "AVON",
-      "price": 150,
-      "stock": 5,
-      "size": "100ml",
-      "category": "completo",
-      "image": "https://api-assets.wikiparfum.com/_resized/v3t8dd9w5phzzswtstuyunjquczvbo7m89jjz0rvodom2tc98lz4tibeompc-w500-q85.jpg",
-      "badge": "Nuevo",
-      "description": "Perfume Avon xd",
-      "id": 22
     }
   ]
 }
