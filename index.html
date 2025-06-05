@@ -704,7 +704,7 @@
         // Cargar productos desde JSON
         async function loadProducts() {
             try {
-                const response = await fetch('inventario.json');
+                const response = await fetch('inventario.json?v=' + Date.now(), { cache: 'no-store' });
                 const data = await response.json();
                 products = data.productos;
                 renderProducts();
