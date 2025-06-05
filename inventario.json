@@ -111,7 +111,7 @@
       "category": "decant",
       "size": "10ml",
       "brand": "Armani",
-      "stock": 16,
+      "stock": 15,
       "description": "Fragancia elegante con bergamota, olivo y guayaco"
     },
     {
@@ -147,7 +147,7 @@
       "badge": "Botella Completa",
       "size": "100ml",
       "brand": "Chanel",
-      "stock": 1,
+      "stock": 0,
       "description": "Botella completa de 100ml del elegante Bleu de Chanel"
     },
     {
