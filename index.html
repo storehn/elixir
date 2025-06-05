@@ -553,24 +553,68 @@
             color: var(--text-color);
         }
         
-        /* Admin Link */
-        .admin-link {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            color: var(--text-color);
-            padding: 10px 15px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: var(--transition);
-            z-index: 1000;
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid rgba(30, 64, 175, 0.2);
         }
         
-        .admin-link:hover {
-            background: rgba(0, 0, 0, 0.9);
-            transform: scale(1.05);
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 20px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        
+        .footer-logo-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .footer-logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .footer-description {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--text-color);
         }
         
         /* Responsive */
@@ -578,13 +622,6 @@
             .products {
                 grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
                 gap: 15px;
-            }
-            
-            .admin-link {
-                bottom: 10px;
-                left: 10px;
-                padding: 8px 12px;
-                font-size: 0.8rem;
             }
         }
     </style>
@@ -645,9 +682,20 @@
         </section>
     </main>
 
-    <a href="admin.html" class="admin-link">
-        <i class="fas fa-cog"></i> Admin
-    </a>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="footer-logo-icon">M</div>
+                <div class="footer-logo-text">MenFragrance</div>
+            </div>
+            <p class="footer-description">Los mejores decants de perfumes masculinos premium al mejor precio. Fragancias de lujo para el hombre moderno.</p>
+            <div class="footer-links">
+                <a href="#">Términos y Condiciones</a>
+                <a href="#">Política de Privacidad</a>
+                <a href="#">Contacto</a>
+            </div>
+        </div>
+    </footer>
 
     <script>
         let cart = [];
