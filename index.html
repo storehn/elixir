@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elixir Store - Decants de Perfumes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1e40af;
+            --primary-hover: #2563eb;
+            --secondary-color: #0891b2;
+            --accent-color: #0f766e;
+            --text-color: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --background-color: #0f172a;
+            --card-bg: rgba(32, 32, 32, 0.9);
+            --card-hover: rgba(40, 40, 40, 0.95);
+            --header-bg: rgba(0, 0, 0, 0.8);
+            --border-radius: 12px;
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e3a8a, #0f172a);
+            background-size: cover;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+        
+        /* Header */
+        header {
+            background: var(--header-bg);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(30, 64, 175, 0.2);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            color: white;
+            box-shadow: 0 2px 10px rgba(30, 64, 175, 0.3);
+        }
+        
+        .logo-container h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Navigation */
+        nav {
+            position: relative;
+        }
+        
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .menu-toggle span {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .nav-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            width: 220px;
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            margin-top: 10px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .nav-menu ul {
+            list-style: none;
+        }
+        
+        .nav-menu li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-menu li:last-child {
+            border-bottom: none;
+        }
+        
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .nav-menu a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            padding-left: 20px;
+        }
+        
+        .nav-menu a i {
+            color: var(--primary-color);
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Cart */
+        .cart-icon {
+            position: relative;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(30, 64, 175, 0.3);
+            transition: var(--transition);
+        }
+        
+        .cart-icon:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(30, 64, 175, 0.4);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: white;
+            color: var(--primary-color);
+            font-size: 0.8rem;
+            font-weight: 600;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Search */
+        .search-container {
+            max-width: 600px;
+            margin: 30px auto;
+            position: relative;
+        }
+        
+        .search-box {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .search-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 15px 20px;
+            color: var(--text-color);
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+        }
+        
+        .search-box input::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        .search-box button {
+            background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+            border: none;
+            color: white;
+            padding: 0 25px;
+            cursor: pointer;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-box button:hover {
+            background: linear-gradient(135deg, var(--primary-hover), var(--accent-color));
+        }
+        
+        /* Category Filters */
+        .category-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px auto 30px;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+        
+        .category-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            padding: 8px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(30, 64, 175, 0.3);
+        }
+        
+        /* Products */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--text-color);
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border-radius: 3px;
+        }
+        
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .product {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            position: relative;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .product:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+            background: var(--card-hover);
+            border-color: rgba(30, 64, 175, 0.3);
+        }
+        
+        .product-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .product:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            z-index: 1;
+        }
+        
+        .product-info {
+            padding: 20px;
+            position: relative;
+        }
+        
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .product-brand {
+            font-size: 0.8rem;
+            color: var(--primary-hover);
+            font-weight: 500;
+        }
+        
+        .product-size {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-color);
+            line-height: 1.4;
+            height: 2.8em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .product-category {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .add-to-cart {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .add-to-cart:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(30, 64, 175, 0.3);
+        }
+        
+        .quick-view {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .quick-view:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid rgba(30, 64, 175, 0.2);
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 20px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        
+        .footer-logo-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .footer-logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .footer-description {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--text-color);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .products {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 12px 15px;
+            }
+            
+            .logo-container h1 {
+                font-size: 1.5rem;
+            }
+            
+            .search-container {
+                margin: 20px auto;
+            }
+            
+            .search-box input {
+                padding: 12px 15px;
+            }
+            
+            .search-box button {
+                padding: 0 15px;
+            }
+            
+            .category-filters {
+                margin: 15px auto 25px;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+            
+            .products {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .logo-container h1 {
+                font-size: 1.3rem;
+            }
+            
+            .products {
+                grid-template-columns: 1fr;
+                max-width: 350px;
+                margin: 0 auto;
+            }
+            
+            .product-image {
+                height: 180px;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .product {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .product:nth-child(2) { animation-delay: 0.1s; }
+        .product:nth-child(3) { animation-delay: 0.2s; }
+        .product:nth-child(4) { animation-delay: 0.3s; }
+        .product:nth-child(5) { animation-delay: 0.4s; }
+        .product:nth-child(6) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <div class="logo-icon">M</div>
+            <h1>Elixir Store</h1>
+        </div>
+        
+        <nav>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+                <span>Menú</span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="#"><i class="fas fa-spray-can"></i> Catálogo</a></li>
+                    <li><a href="#"><i class="fas fa-star"></i> Novedades</a></li>
+                    <li><a href="#"><i class="fas fa-user"></i> Mi Cuenta</a></li>
+                    <li><a href="#"><i class="fas fa-headset"></i> Contacto</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+        <div class="cart-icon" onclick="redirectToCart()">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cart-count">0</span>
+        </div>
+    </header>
+    
+    <div class="search-container">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Buscar perfumes...">
+            <button onclick="searchProducts()">
+                <i class="fas fa-search"></i>
+                <span>Buscar</span>
+            </button>
+        </div>
+    </div>
+    
+    <div class="category-filters">
+        <button class="category-btn active" data-category="all"><span>🌟</span> Todos</button>
+        <button class="category-btn" data-category="decant"><span>💧</span> Decants 10ml</button>
+        <button class="category-btn" data-category="completo"><span>🎁</span> Botellas Completas</button>
+        <button class="category-btn" data-category="premium"><span>👑</span> Premium</button>
+    </div>
+    
+    <main>
+        <h2 class="section-title">Decants Y Perfumes Masculinos</h2>
+        <section class="products" id="product-list">
+            <!-- Los productos se generarán dinámicamente -->
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="footer-logo-icon">E</div>
+                <div class="footer-logo-text">Elixir Store</div>
+            </div>
+            <p class="footer-description">Los mejores decants y perfumes premium al mejor precio. Fragancias de lujo para el hombre moderno.</p>
+            <div class="footer-links">
+                <a href="#">Términos y Condiciones</a>
+                <a href="#">Política de Privacidad</a>
+                <a href="#">Contacto</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let cart = [];
+        const products = [
+            { id: 1, name: "Jean Paul Gaultier Le Male", price: 620, image: "https://fimgs.net/mdimg/perfume/375x500.430.jpg", category: "decant", badge: "Popular", size: "10ml", brand: "JPG" },
+            { id: 2, name: "Jean Paul Gaultier Le Male Elixir", price: 850, image: "https://fimgs.net/mdimg/perfume/375x500.16062.jpg", category: "decant", badge: "Nuevo", size: "10ml", brand: "JPG" },
+            { id: 3, name: "Dior Sauvage Elixir", price: 950, image: "https://fimgs.net/mdimg/perfume/375x500.66676.jpg", category: "premium", badge: "Premium", size: "10ml", brand: "Dior" },
+            { id: 4, name: "Tom Ford Beau de Jour", price: 1100, image: "https://fimgs.net/mdimg/perfume/375x500.58439.jpg", category: "premium", size: "10ml", brand: "Tom Ford" },
+            { id: 5, name: "Creed Aventus", price: 1250, image: "https://fimgs.net/mdimg/perfume/375x500.9828.jpg", category: "premium", badge: "Exclusivo", size: "10ml", brand: "Creed" },
+            { id: 6, name: "Bleu de Chanel", price: 750, image: "https://fimgs.net/mdimg/perfume/375x500.9099.jpg", category: "decant", size: "10ml", brand: "Chanel" },
+            { id: 7, name: "Versace Eros", price: 620, image: "https://fimgs.net/mdimg/perfume/375x500.16657.jpg", category: "decant", size: "10ml", brand: "Versace" },
+            { id: 8, name: "Paco Rabanne 1 Million", price: 680, image: "https://fimgs.net/mdimg/perfume/375x500.5405.jpg", category: "decant", size: "10ml", brand: "Paco Rabanne" },
+            { id: 9, name: "Yves Saint Laurent Y", price: 780, image: "https://fimgs.net/mdimg/perfume/375x500.46631.jpg", category: "decant", size: "10ml", brand: "YSL" },
+            { id: 10, name: "Armani Code", price: 650, image: "https://fimgs.net/mdimg/perfume/375x500.1066.jpg", category: "decant", size: "10ml", brand: "Armani" },
+            { id: 11, name: "Hugo Boss Bottled", price: 580, image: "https://fimgs.net/mdimg/perfume/375x500.1067.jpg", category: "decant", size: "10ml", brand: "Hugo Boss" },
+            { id: 12, name: "Dolce & Gabbana The One", price: 720, image: "https://fimgs.net/mdimg/perfume/375x500.1068.jpg", category: "decant", size: "10ml", brand: "D&G" },
+            { id: 13, name: "Acqua di Gio Profumo", price: 680, image: "https://fimgs.net/mdimg/perfume/375x500.1069.jpg", category: "decant", size: "10ml", brand: "Armani" },
+            { id: 14, name: "Tom Ford Oud Wood", price: 1200, image: "https://fimgs.net/mdimg/perfume/375x500.1070.jpg", category: "premium", badge: "Luxury", size: "10ml", brand: "Tom Ford" },
+            { id: 15, name: "Maison Margiela Jazz Club", price: 920, image: "https://fimgs.net/mdimg/perfume/375x500.15060.jpg", category: "premium", size: "10ml", brand: "Maison Margiela" },
+            { id: 16, name: "Le Labo Santal 33", price: 1050, image: "https://fimgs.net/mdimg/perfume/375x500.12201.jpg", category: "premium", badge: "Trending", size: "10ml", brand: "Le Labo" },
+            { id: 17, name: "Jean Paul Gaultier Le Male", price: 2950, image: "https://fimgs.net/mdimg/perfume/375x500.430.jpg", category: "completo", badge: "Botella Completa", size: "100ml", brand: "JPG" },
+            { id: 18, name: "Dior Sauvage", price: 3450, image: "https://fimgs.net/mdimg/perfume/375x500.31655.jpg", category: "completo", badge: "Botella Completa", size: "100ml", brand: "Dior" },
+            { id: 19, name: "Bleu de Chanel", price: 3700, image: "https://fimgs.net/mdimg/perfume/375x500.9099.jpg", category: "completo", badge: "Botella Completa", size: "100ml", brand: "Chanel" },
+            { id: 20, name: "Creed Aventus", price: 6900, image: "https://fimgs.net/mdimg/perfume/375x500.9828.jpg", category: "completo", badge: "Botella Completa", size: "100ml", brand: "Creed" },
+            { id: 21, name: "Versace Eros Flame", price: 650, image: "https://fimgs.net/mdimg/perfume/375x500.1071.jpg", category: "decant", size: "10ml", brand: "Versace" },
+            { id: 22, name: "Montblanc Legend", price: 580, image: "https://fimgs.net/mdimg/perfume/375x500.1072.jpg", category: "decant", size: "10ml", brand: "Montblanc" },
+            { id: 23, name: "Carolina Herrera Bad Boy", price: 720, image: "https://fimgs.net/mdimg/perfume/375x500.1073.jpg", category: "decant", badge: "Nuevo", size: "10ml", brand: "CH" },
+            { id: 24, name: "Azzaro Wanted", price: 620, image: "https://fimgs.net/mdimg/perfume/375x500.1074.jpg", category: "decant", size: "10ml", brand: "Azzaro" },
+        ];
+
+        // Cargar carrito desde localStorage si existe
+        function loadCart() {
+            const savedCart = localStorage.getItem('men-perfume-cart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+                updateCartCount();
+            }
+        }
+
+        function renderProducts(filteredProducts = products) {
+            const productList = document.getElementById('product-list');
+            productList.innerHTML = '';
+            
+            if (filteredProducts.length === 0) {
+                productList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h3>No se encontraron resultados</h3>
+                        <p>Intenta con otra búsqueda o categoría</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredProducts.forEach(product => {
+                const productElement = `
+                    <div class="product">
+                        <div class="product-image">
+                            <img src="${product.image}" alt="${product.name}">
+                            <div class="product-overlay"></div>
+                            ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
+                        </div>
+                        <div class="product-info">
+                            <div class="product-meta">
+                                <span class="product-brand">${product.brand}</span>
+                                <span class="product-size">${product.size}</span>
+                            </div>
+                            <h3 class="product-title">${product.name}</h3>
+                            <div class="product-price">
+                                L ${product.price.toLocaleString()}
+                                <span class="product-category">${getCategoryName(product.category)}</span>
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart" onclick="addToCart(${product.id})">
+                                    <i class="fas fa-shopping-cart"></i> Agregar
+                                </button>
+                                <button class="quick-view" onclick="quickView(${product.id})">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                productList.innerHTML += productElement;
+            });
+        }
+
+        function getCategoryName(category) {
+            const categories = {
+                'decant': 'Decant',
+                'premium': 'Premium',
+                'completo': 'Botella Completa'
+            };
+            return categories[category] || 'Perfume';
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                cart.push(product);
+                updateCartCount();
+                saveCart();
+                
+                // Mostrar notificación
+                showNotification(`${product.name} agregado al carrito`);
+            }
+        }
+
+        function showNotification(message) {
+            // Crear elemento de notificación
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.background = 'rgba(30, 64, 175, 0.9)';
+            notification.style.color = 'white';
+            notification.style.padding = '15px 20px';
+            notification.style.borderRadius = '8px';
+            notification.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+            notification.style.zIndex = '1000';
+            notification.style.display = 'flex';
+            notification.style.alignItems = 'center';
+            notification.style.gap = '10px';
+            notification.style.fontFamily = "'Poppins', sans-serif";
+            notification.style.transform = 'translateY(100px)';
+            notification.style.opacity = '0';
+            notification.style.transition = 'all 0.3s ease';
+            
+            notification.innerHTML = `
+                <i class="fas fa-check-circle" style="font-size: 1.2rem;"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animar entrada
+            setTimeout(() => {
+                notification.style.transform = 'translateY(0)';
+                notification.style.opacity = '1';
+            }, 10);
+            
+            // Eliminar después de 3 segundos
+            setTimeout(() => {
+                notification.style.transform = 'translateY(100px)';
+                notification.style.opacity = '0';
+                
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        function updateCartCount() {
+            const cartCount = document.getElementById('cart-count');
+            cartCount.textContent = cart.length;
+        }
+
+        function saveCart() {
+            localStorage.setItem('men-perfume-cart', JSON.stringify(cart));
+        }
+
+        function redirectToCart() {
+            saveCart();
+            window.location.href = 'cart';
+        }
+
+        function searchProducts() {
+            const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
+            const activeCategory = document.querySelector('.category-btn.active').dataset.category;
+            
+            let filteredProducts = products;
+            
+            // Filtrar por categoría si no es "all"
+            if (activeCategory !== 'all') {
+                filteredProducts = filteredProducts.filter(product => 
+                    product.category === activeCategory
+                );
+            }
+            
+            // Filtrar por texto de búsqueda
+            if (searchInput) {
+                filteredProducts = filteredProducts.filter(product => 
+                    product.name.toLowerCase().includes(searchInput) ||
+                    product.brand.toLowerCase().includes(searchInput)
+                );
+            }
+            
+            renderProducts(filteredProducts);
+        }
+
+        function quickView(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                // Aquí podrías implementar un modal para mostrar más detalles del producto
+                alert(`${product.name}\nMarca: ${product.brand}\nTamaño: ${product.size}\nPrecio: L ${product.price.toLocaleString()}\nCategoría: ${getCategoryName(product.category)}`);
+            }
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cargar carrito
+            loadCart();
+            
+            // Renderizar productos
+            renderProducts();
+            
+            // Manejar menú de navegación
+            const menuToggle = document.getElementById('menuToggle');
+            const navMenu = document.getElementById('navMenu');
+            
+            menuToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                navMenu.classList.toggle('active');
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (!navMenu.contains(e.target) && e.target !== menuToggle) {
+                    navMenu.classList.remove('active');
+                }
+            });
+            
+            // Manejar filtros de categoría
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Quitar clase active de todos los botones
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Agregar clase active al botón clickeado
+                    this.classList.add('active');
+                    
+                    // Filtrar productos
+                    const category = this.dataset.category;
+                    
+                    if (category === 'all') {
+                        renderProducts();
+                    } else {
+                        const filteredProducts = products.filter(product => 
+                            product.category === category
+                        );
+                        renderProducts(filteredProducts);
+                    }
+                });
+            });
+            
+            // Manejar búsqueda con Enter
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchProducts();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
