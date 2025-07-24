@@ -21,13 +21,13 @@
       "badge": "Nuevo",
       "size": "5ml",
       "brand": "JPG",
-      "stock": 1,
+      "stock": 40,
       "description": "Versión intensa y seductora del clásico Le Male"
     },
     {
       "id": 3,
       "name": "Jean Paul Gaultier Le Beau",
-      "price": 150,
+      "price": 180,
       "image": "https://tse3.mm.bing.net/th/id/OIP.S99rfZxIoocOeyUuOpzVJAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
       "category": "decant",
       "badge": "Nuevo",
@@ -39,7 +39,7 @@
     {
       "id": 4,
       "name": "Jean Paul Gaultier Le Beau",
-      "price": 250,
+      "price": 220,
       "image": "https://tse3.mm.bing.net/th/id/OIP.S99rfZxIoocOeyUuOpzVJAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
       "category": "decant",
       "badge": "Nuevo",
