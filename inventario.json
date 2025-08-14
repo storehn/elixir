@@ -35,6 +35,18 @@
       "badge": null,
       "description": "El perfume 212 VIP Black NYC de Carolina Herrera es una fragancia masculina intensa y seductora, con notas aromáticas y especiadas que combinan absenta, lavanda, almizcle y vainilla negra, transmitiendo elegancia, energía nocturna y un estilo sofisticado propio de la vida VIP neoyorquina.",
       "id": 3
+    },
+    {
+      "name": "212 VIP BLACK NYC",
+      "brand": "Carolina Herrera",
+      "price": 135,
+      "stock": 20,
+      "size": "3ml",
+      "category": "decant",
+      "image": "https://www.faces.sa/dw/image/v2/BJSM_PRD/on/demandware.static/-/Sites-faces-master-catalog/default/dwe4733672/images/005717133161_3.jpg?sw=800&sh=800",
+      "badge": null,
+      "description": "El perfume 212 VIP Black NYC de Carolina Herrera es una fragancia masculina intensa y seductora, con notas aromáticas y especiadas que combinan absenta, lavanda, almizcle y vainilla negra, transmitiendo elegancia, energía nocturna y un estilo sofisticado propio de la vida VIP neoyorquina.",
+      "id": 4
     }
   ]
 }
