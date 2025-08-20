@@ -71,6 +71,18 @@
       "badge": null,
       "description": "Dolce & Gabbana es una fragancia sofisticada que combina elegancia y carácter moderno. Su aroma mezcla notas frescas y vibrantes con un toque cálido y seductor, ideal para quienes buscan destacar con un estilo refinado y atemporal.",
       "id": 6
+    },
+    {
+      "name": "Cartier La Panthere Travel Edition",
+      "brand": "Cartier",
+      "price": 425,
+      "stock": 20,
+      "size": "5ml",
+      "category": "decant",
+      "image": "https://www.cartier.com/dw/image/v2/BFHP_PRD/on/demandware.static/-/Sites-cartier-master/default/dw714b9292/images/large/6ffc83d9f18651ea95d34cbc762bb95a.png?sw=750&sh=750&sm=fit&sfrm=png",
+      "badge": null,
+      "description": "Cartier La Panthere Travel Edition es una fragancia sofisticada y cautivadora que combina la elegancia floral del gardenia con un fondo almizclado y aterciopelado.",
+      "id": 7
     }
   ]
 }
