@@ -47,6 +47,18 @@
       "badge": null,
       "description": "El perfume 212 VIP Black NYC de Carolina Herrera es una fragancia masculina intensa y seductora, con notas aromáticas y especiadas que combinan absenta, lavanda, almizcle y vainilla negra, transmitiendo elegancia, energía nocturna y un estilo sofisticado propio de la vida VIP neoyorquina.",
       "id": 4
+    },
+    {
+      "name": "Dolce Gabbana Light Blue EDT",
+      "brand": "Dolce Gabbana",
+      "price": 260,
+      "stock": 20,
+      "size": "5ml",
+      "category": "decant",
+      "image": "https://tse1.mm.bing.net/th/id/OIP.a4vgBvNSsX43q00aKlq4RAHaFe?rs=1&pid=ImgDetMain&o=7&rm=3",
+      "badge": null,
+      "description": "Dolce & Gabbana es una fragancia sofisticada que combina elegancia y carácter moderno. Su aroma mezcla notas frescas y vibrantes con un toque cálido y seductor, ideal para quienes buscan destacar con un estilo refinado y atemporal.\n",
+      "id": 5
     }
   ]
 }
